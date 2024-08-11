@@ -100,13 +100,13 @@ public:
 // Node of a B-tree
 class BTreeNode
 {
+public:
     Details *keys;        // Array to store keys
     int degree;           // Minimum degree (defines the range for number of keys)
     BTreeNode **children; // Array of child pointers
     int keyCount;         // Current number of keys
     bool isLeaf;          // True if the node is a leaf node
 
-public:
     BTreeNode(int _degree, bool _isLeaf); // Constructor
     void insertNonFull(Details k);        // Inserts a new key when the node is not full
     void splitChild(int i, BTreeNode *y); // Splits the child of a node at index i
@@ -123,6 +123,8 @@ public:
     void borrowFromNext(int idx);         // Borrows a key from the next sibling
     void merge(int idx);                  // Merges the child node at index idx with its sibling
     friend class BTree;                   // Granting access to private members for BTree class
+
+    void rangeSearch(Year start, Year end); // Range search method
 };
 
 // B-tree class
@@ -137,6 +139,7 @@ public:
     BTreeNode *search(Details k);
     void insert(Details k); // Inserts a new key in the B-tree
     void remove(Details k); // Removes a key from the B-tree
+    void rangeSearch(Year start,Year end);
 };
 
 #endif

@@ -426,3 +426,33 @@ void BTreeNode::merge(int idx)
     // Free the memory occupied by sibling
     delete sibling;
 }
+
+// Helper function to recursively search within the range
+void BTreeNode::rangeSearch(Year start, Year end)
+{
+    int i = 0;
+    while (i < keyCount && keys[i].year < start) 
+        ++i; // Skip keys before start year
+    
+    // Traverse all children
+    for (; i < keyCount && keys[i].year <= end; ++i)
+    {
+        // Print details of current key
+        keys[i].printDetails();
+
+        // If not a leaf, recurse into the children
+        if (!isLeaf)
+            children[i]->rangeSearch(start, end);
+    }
+
+    // Finally, check the last child if this node is not a leaf
+    if (!isLeaf)
+        children[i]->rangeSearch(start, end);
+}
+
+// Implement the rangeSearch method in BTree
+void BTree::rangeSearch(Year start, Year end)
+{
+    if (root != nullptr)
+        root->rangeSearch(start, end);
+}
